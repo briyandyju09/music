@@ -239,6 +239,7 @@ class LibraryPlaylistsController extends GetxController
   final creationInProgress = false.obs;
   final textInputController = TextEditingController();
   List<Playlist> tempListContainer = [];
+  final isGridView = true.obs;
 
   // Add these RxBool to track import progress
   final isImporting = false.obs;
@@ -633,6 +634,7 @@ class LibraryPlaylistsController extends GetxController
 class LibraryAlbumsController extends GetxController {
   late RxList<Album> libraryAlbums = RxList();
   final isContentFetched = false.obs;
+  final isGridView = true.obs;
   List<Album> tempListContainer = [];
 
   @override

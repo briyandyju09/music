@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import '/ui/player/components/gesture_player.dart';
-import '/ui/player/components/standard_player.dart';
+import '/ui/player/components/new_standard_player.dart';
 import '/ui/screens/Settings/settings_screen_controller.dart';
 import '../../utils/helper.dart';
 import '../widgets/snackbar.dart';
@@ -201,7 +201,7 @@ class Player extends StatelessWidget {
           /// show player ui based on selected player ui in settings
           /// Gesture player is only applicable for mobile
           body: settingsScreenController.playerUi.value == 0
-              ? const StandardPlayer()
+              ? const NewStandardPlayer()
               : const GesturePlayer(),
         ),
       ),

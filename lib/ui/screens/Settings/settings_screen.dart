@@ -15,7 +15,7 @@ import '/ui/widgets/link_piped.dart';
 import '/services/music_service.dart';
 import '/ui/player/player_controller.dart';
 import '/ui/utils/theme_controller.dart';
-import 'components/custom_expansion_tile.dart';
+import 'components/settings_group.dart';
 import 'settings_screen_controller.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -25,7 +25,9 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsController = Get.find<SettingsScreenController>();
-    final topPadding = context.isLandscape ? 50.0 : 90.0;
+    final topPadding = context.isLandscape
+        ? MediaQuery.of(context).viewPadding.top + 20
+        : MediaQuery.of(context).viewPadding.top + 60;
     final isDesktop = GetPlatform.isDesktop;
     return Padding(
       padding: isBottomNavActive
@@ -84,12 +86,12 @@ class SettingsScreen extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              CustomExpansionTile(
+              SettingsGroup(
                 title: "personalisation".tr,
                 icon: Icons.palette,
                 children: [
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("themeMode".tr),
                     subtitle: Obx(
                       () => Text(
@@ -111,7 +113,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("language".tr),
                     subtitle: Text("languageDes".tr,
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -145,7 +147,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   if (!isDesktop)
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("playerUi".tr),
                       subtitle: Text("playerUiDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -169,7 +172,7 @@ class SettingsScreen extends StatelessWidget {
                   if (!isDesktop)
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("enableBottomNav".tr),
                         subtitle: Text("enableBottomNavDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -180,7 +183,8 @@ class SettingsScreen extends StatelessWidget {
                               onChanged: settingsController.enableBottomNavBar),
                         )),
                   ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("disableTransitionAnimation".tr),
                       subtitle: Text("disableTransitionAnimationDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -192,7 +196,8 @@ class SettingsScreen extends StatelessWidget {
                                 settingsController.disableTransitionAnimation),
                       )),
                   ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("enableSlidableAction".tr),
                       subtitle: Text("enableSlidableActionDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -204,12 +209,13 @@ class SettingsScreen extends StatelessWidget {
                       )),
                 ],
               ),
-              CustomExpansionTile(
+              SettingsGroup(
                   title: "content".tr,
                   icon: Icons.music_video,
                   children: [
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("setDiscoverContent".tr),
                       subtitle: Obx(() => Text(
                           settingsController.discoverContentType.value == "QP"
@@ -230,7 +236,8 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("homeContentCount".tr),
                       subtitle: Text("homeContentCountDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -249,7 +256,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("cacheHomeScreenData".tr),
                         subtitle: Text("cacheHomeScreenDataDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -262,7 +269,7 @@ class SettingsScreen extends StatelessWidget {
                         )),
                     ListTile(
                       contentPadding:
-                          const EdgeInsets.only(left: 5, right: 10, top: 0),
+                          const EdgeInsets.only(left: 15, right: 10, top: 0),
                       title: Text("Piped".tr),
                       subtitle: Text("linkPipedDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -291,7 +298,7 @@ class SettingsScreen extends StatelessWidget {
                     Obx(() => (settingsController.isLinkedWithPiped.isTrue)
                         ? ListTile(
                             contentPadding: const EdgeInsets.only(
-                                left: 5, right: 10, top: 0),
+                                left: 15, right: 10, top: 0),
                             title: Text("resetblacklistedplaylist".tr),
                             subtitle: Text("resetblacklistedplaylistDes".tr,
                                 style: Theme.of(context).textTheme.bodyMedium),
@@ -314,7 +321,8 @@ class SettingsScreen extends StatelessWidget {
                           )
                         : const SizedBox.shrink()),
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("clearImgCache".tr),
                       subtitle: Text(
                         "clearImgCacheDes".tr,
@@ -329,12 +337,15 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                   ]),
-              CustomExpansionTile(
+              SettingsGroup(
                 title: "music&Playback".tr,
                 icon: Icons.music_note,
                 children: [
+                  // ... Music and Playback items ...
+                  // Since I can't put everything in one chunk easily if it's too big,
+                  // I will try to include Music & Playback and Download.
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("streamingQuality".tr),
                     subtitle: Text("streamingQualityDes".tr,
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -358,7 +369,7 @@ class SettingsScreen extends StatelessWidget {
                   if (GetPlatform.isAndroid)
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("loudnessNormalization".tr),
                         subtitle: Text("loudnessNormalizationDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -372,7 +383,7 @@ class SettingsScreen extends StatelessWidget {
                   if (!isDesktop)
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("cacheSongs".tr),
                         subtitle: Text("cacheSongsDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -385,7 +396,7 @@ class SettingsScreen extends StatelessWidget {
                   if (!isDesktop)
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("skipSilence".tr),
                         subtitle: Text("skipSilenceDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -398,7 +409,7 @@ class SettingsScreen extends StatelessWidget {
                   if (isDesktop)
                     ListTile(
                         contentPadding:
-                            const EdgeInsets.only(left: 5, right: 10),
+                            const EdgeInsets.only(left: 15, right: 10),
                         title: Text("backgroundPlay".tr),
                         subtitle: Text("backgroundPlayDes".tr,
                             style: Theme.of(context).textTheme.bodyMedium),
@@ -410,7 +421,8 @@ class SettingsScreen extends StatelessWidget {
                                   settingsController.toggleBackgroundPlay),
                         )),
                   ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("keepScreenOnWhilePlaying".tr),
                       subtitle: Text("keepScreenOnWhilePlayingDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -421,7 +433,8 @@ class SettingsScreen extends StatelessWidget {
                                 settingsController.toggleKeepScreenAwake),
                       )),
                   ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("restoreLastPlaybackSession".tr),
                       subtitle: Text("restoreLastPlaybackSessionDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -433,7 +446,7 @@ class SettingsScreen extends StatelessWidget {
                                 .toggleRestorePlaybackSession),
                       )),
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("autoOpenPlayer".tr),
                     subtitle: Text("autoOpenPlayerDes".tr,
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -446,7 +459,7 @@ class SettingsScreen extends StatelessWidget {
                   if (!isDesktop)
                     ListTile(
                       contentPadding:
-                          const EdgeInsets.only(left: 5, right: 10, top: 0),
+                          const EdgeInsets.only(left: 15, right: 10, top: 0),
                       title: Text("equalizer".tr),
                       subtitle: Text("equalizerDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -460,7 +473,8 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   if (!isDesktop)
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("stopMusicOnTaskClear".tr),
                       subtitle: Text("stopMusicOnTaskClearDes".tr,
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -476,7 +490,7 @@ class SettingsScreen extends StatelessWidget {
                       ? Obx(
                           () => ListTile(
                             contentPadding:
-                                const EdgeInsets.only(left: 5, right: 10),
+                                const EdgeInsets.only(left: 15, right: 10),
                             title: Text("ignoreBatOpt".tr),
                             onTap: settingsController
                                     .isIgnoringBatteryOptimizations.isFalse
@@ -505,12 +519,12 @@ class SettingsScreen extends StatelessWidget {
                       : const SizedBox.shrink(),
                 ],
               ),
-              CustomExpansionTile(
+              SettingsGroup(
                 title: "download".tr,
                 icon: Icons.download,
                 children: [
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("autoDownFavSong".tr),
                     subtitle: Text("autoDownFavSongDes".tr,
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -523,7 +537,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("downloadingFormat".tr),
                     subtitle: Text("downloadingFormatDes".tr,
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -558,7 +572,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     contentPadding:
-                        const EdgeInsets.only(left: 5, right: 10, top: 0),
+                        const EdgeInsets.only(left: 15, right: 10, top: 0),
                     title: Text("downloadLocation".tr),
                     subtitle: Obx(() => Text(
                         settingsController.isCurrentPathsupportDownDir
@@ -571,7 +585,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   if (GetPlatform.isAndroid)
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("exportDowloadedFiles".tr),
                       subtitle: Text(
                         "exportDowloadedFilesDes".tr,
@@ -587,7 +602,7 @@ class SettingsScreen extends StatelessWidget {
                   if (GetPlatform.isAndroid)
                     ListTile(
                       contentPadding:
-                          const EdgeInsets.only(left: 5, right: 10, top: 0),
+                          const EdgeInsets.only(left: 15, right: 10, top: 0),
                       title: Text("exportedFileLocation".tr),
                       subtitle: Obx(() => Text(
                           settingsController.exportLocationPath.value,
@@ -598,12 +613,13 @@ class SettingsScreen extends StatelessWidget {
                     ),
                 ],
               ),
-              CustomExpansionTile(
+              SettingsGroup(
                   title: "${"backup".tr} & ${"restore".tr}",
                   icon: Icons.restore,
                   children: [
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("backupAppData".tr),
                       subtitle: Text(
                         "backupSettingsAndPlaylistsDes".tr,
@@ -617,7 +633,8 @@ class SettingsScreen extends StatelessWidget {
                           () => Get.delete<BackupDialogController>()),
                     ),
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("restoreAppData".tr),
                       subtitle: Text(
                         "restoreSettingsAndPlaylistsDes".tr,
@@ -631,12 +648,13 @@ class SettingsScreen extends StatelessWidget {
                           () => Get.delete<RestoreDialogController>()),
                     ),
                   ]),
-              CustomExpansionTile(
+              SettingsGroup(
                   icon: Icons.miscellaneous_services,
                   title: "misc".tr,
                   children: [
                     ListTile(
-                      contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                      contentPadding:
+                          const EdgeInsets.only(left: 15, right: 10),
                       title: Text("resetToDefault".tr),
                       subtitle: Text(
                         "resetToDefaultDes".tr,
@@ -654,12 +672,12 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                   ]),
-              CustomExpansionTile(
+              SettingsGroup(
                 icon: Icons.info,
                 title: "appInfo".tr,
                 children: [
                   ListTile(
-                    contentPadding: const EdgeInsets.only(left: 5, right: 10),
+                    contentPadding: const EdgeInsets.only(left: 15, right: 10),
                     title: Text("github".tr),
                     subtitle: Text(
                       "${"githubDes".tr}${((Get.find<PlayerController>().playerPanelMinHeight.value) == 0 || !isBottomNavActive) ? "" : "\n\n${settingsController.currentVersion} ${"by".tr} anandnet"}",
@@ -680,7 +698,7 @@ class SettingsScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          "Harmony Music",
+                          "Briyan Music",
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(settingsController.currentVersion,

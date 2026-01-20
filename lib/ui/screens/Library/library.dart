@@ -16,7 +16,9 @@ class SongsLibraryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = context.isLandscape ? 50.0 : 90.0;
+    final topPadding = context.isLandscape
+        ? MediaQuery.of(context).viewPadding.top + 20
+        : MediaQuery.of(context).viewPadding.top + 60;
     return Padding(
       padding: isBottomNavActive
           ? const EdgeInsets.only(left: 15)
@@ -109,7 +111,9 @@ class PlaylistNAlbumLibraryWidget extends StatelessWidget {
 
     const double itemHeight = 180;
     const double itemWidth = 130;
-    final topPadding = context.isLandscape ? 50.0 : 90.0;
+    final topPadding = context.isLandscape
+        ? MediaQuery.of(context).viewPadding.top + 20
+        : MediaQuery.of(context).viewPadding.top + 60;
 
     return Padding(
       padding: isBottomNavActive
@@ -133,13 +137,38 @@ class PlaylistNAlbumLibraryWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                (settingscrnController.isBottomNavBarEnabled.isTrue ||
-                        isAlbumContent ||
-                        settingscrnController.isLinkedWithPiped.isFalse)
-                    ? const SizedBox.shrink()
-                    : PipedSyncWidget(
-                        padding: EdgeInsets.only(right: size.width * .05),
-                      )
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Toggle Button
+                    Obx(() {
+                      final isGrid = isAlbumContent
+                          ? libralbumCntrller.isGridView.value
+                          : librplstCntrller.isGridView.value;
+                      return IconButton(
+                        icon: Icon(isGrid
+                            ? Icons.view_list_rounded
+                            : Icons.grid_view_rounded),
+                        onPressed: () {
+                          if (isAlbumContent) {
+                            libralbumCntrller.isGridView.value =
+                                !libralbumCntrller.isGridView.value;
+                          } else {
+                            librplstCntrller.isGridView.value =
+                                !librplstCntrller.isGridView.value;
+                          }
+                        },
+                      );
+                    }),
+                    (settingscrnController.isBottomNavBarEnabled.isTrue ||
+                            isAlbumContent ||
+                            settingscrnController.isLinkedWithPiped.isFalse)
+                        ? const SizedBox.shrink()
+                        : PipedSyncWidget(
+                            padding: EdgeInsets.only(right: size.width * .05),
+                          )
+                  ],
+                )
               ],
             ),
           ),
@@ -182,42 +211,63 @@ class PlaylistNAlbumLibraryWidget extends StatelessWidget {
               () => (isAlbumContent
                       ? libralbumCntrller.libraryAlbums.isNotEmpty
                       : librplstCntrller.libraryPlaylists.isNotEmpty)
-                  ? LayoutBuilder(builder: (context, constraints) {
-                      //Fix for grid in mobile screen
-                      final availableWidth = constraints.maxWidth > 300 &&
-                              constraints.maxWidth < 394
-                          ? 310.0
-                          : constraints.maxWidth;
-                      int columns = (availableWidth / itemWidth).floor();
-                      return SizedBox(
-                        width: availableWidth,
-                        child: GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: columns,
-                              childAspectRatio: (itemWidth / itemHeight),
-                            ),
-                            controller:
-                                ScrollController(keepScrollOffset: false),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            padding:
-                                const EdgeInsets.only(bottom: 200, top: 10),
-                            itemCount: isAlbumContent
-                                ? libralbumCntrller.libraryAlbums.length
-                                : librplstCntrller.libraryPlaylists.length,
-                            itemBuilder: (context, index) => Center(
-                                  child: ContentListItem(
-                                    content: isAlbumContent
-                                        ? libralbumCntrller.libraryAlbums[index]
-                                        : librplstCntrller
-                                            .libraryPlaylists[index],
-                                    isLibraryItem: true,
-                                  ),
-                                )),
-                      );
-                    })
+                  ? Obx(() {
+                      final isGrid = isAlbumContent
+                          ? libralbumCntrller.isGridView.value
+                          : librplstCntrller.isGridView.value;
+
+                      if (!isGrid) {
+                        // List View
+                        return ListWidget(
+                          isAlbumContent
+                              ? libralbumCntrller.libraryAlbums
+                              : librplstCntrller.libraryPlaylists,
+                          isAlbumContent
+                              ? "Albums"
+                              : "Singles", // Use existing logic keywords or pass flag
+                          true,
+                          isPlaylistOrAlbum: true, // Reuse wideListTile logic
+                        );
+                      }
+
+                      // Grid View
+                      return LayoutBuilder(builder: (context, constraints) {
+                        //Fix for grid in mobile screen
+                        final availableWidth = constraints.maxWidth > 300 &&
+                                constraints.maxWidth < 394
+                            ? 310.0
+                            : constraints.maxWidth;
+                        int columns = (availableWidth / itemWidth).floor();
+                        return SizedBox(
+                            width: availableWidth,
+                            child: GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: columns,
+                                  childAspectRatio: (itemWidth / itemHeight),
+                                ),
+                                controller:
+                                    ScrollController(keepScrollOffset: false),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                padding:
+                                    const EdgeInsets.only(bottom: 200, top: 10),
+                                itemCount: isAlbumContent
+                                    ? libralbumCntrller.libraryAlbums.length
+                                    : librplstCntrller.libraryPlaylists.length,
+                                itemBuilder: (context, index) => Center(
+                                      child: ContentListItem(
+                                        content: isAlbumContent
+                                            ? libralbumCntrller
+                                                .libraryAlbums[index]
+                                            : librplstCntrller
+                                                .libraryPlaylists[index],
+                                        isLibraryItem: true,
+                                      ),
+                                    )));
+                      });
+                    }) // Closed inner Obx
                   : Center(
                       child: Text(
                       "noBookmarks".tr,
@@ -238,7 +288,9 @@ class LibraryArtistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cntrller = Get.find<LibraryArtistsController>();
-    final topPadding = context.isLandscape ? 50.0 : 90.0;
+    final topPadding = context.isLandscape
+        ? MediaQuery.of(context).viewPadding.top + 20
+        : MediaQuery.of(context).viewPadding.top + 60;
     return Padding(
       padding: isBottomNavActive
           ? const EdgeInsets.only(left: 15)

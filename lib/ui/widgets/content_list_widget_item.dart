@@ -21,7 +21,8 @@ class ContentListItem extends StatelessWidget {
       onTap: () {
         if (isAlbum) {
           Get.toNamed(ScreenNavigationSetup.albumScreen,
-              id: ScreenNavigationSetup.id, arguments:(content, content.browseId));
+              id: ScreenNavigationSetup.id,
+              arguments: (content, content.browseId));
           return;
         }
         Get.toNamed(ScreenNavigationSetup.playlistScreen,
@@ -31,7 +32,13 @@ class ContentListItem extends StatelessWidget {
       child: Container(
         width: 130,
         height: 180,
-        padding: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.all(5), // Reduced padding inside glass
+        // Use GlassContainer or BoxDecoration with Glass effect
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white.withOpacity(0.05), // Subtle glass base
+          border: Border.all(color: Colors.white.withOpacity(0.1)),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,27 +133,37 @@ class ContentListItem extends StatelessWidget {
                         ))),
             const SizedBox(height: 5),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    content.title,
-                    // overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    isAlbum
-                        ? isLibraryItem
-                            ? ""
-                            : "${content.artists[0]['name'] ?? ""} | ${content.year ?? ""}"
-                        : isLibraryItem
-                            ? ""
-                            : content.description ?? "",
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      content.title,
+                      // overflow: TextOverflow.ellipsis,
+                      maxLines: 1, // Reduced to 1 line for cleaner card
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontSize: 14),
+                    ),
+                    Text(
+                      isAlbum
+                          ? isLibraryItem
+                              ? ""
+                              : "${content.artists[0]['name'] ?? ""} | ${content.year ?? ""}"
+                          : isLibraryItem
+                              ? ""
+                              : content.description ?? "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontSize: 12, color: Colors.white70),
+                    ),
+                  ],
+                ),
               ),
             )
           ],

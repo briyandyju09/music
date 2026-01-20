@@ -9,7 +9,7 @@ import '/ui/screens/Settings/settings_screen_controller.dart';
 import '../utils/helper.dart';
 import '../ui/navigator.dart';
 import '../ui/player/player.dart';
-import 'player/components/mini_player.dart';
+import 'player/components/new_mini_player.dart';
 import 'player/player_controller.dart';
 import 'widgets/bottom_nav_bar.dart';
 import 'widgets/scroll_to_hide.dart';
@@ -68,6 +68,7 @@ class Home extends StatelessWidget {
         },
         child: Obx(
           () => Scaffold(
+              extendBody: true,
               bottomNavigationBar: settingsScreenController
                       .isBottomNavBarEnabled.isTrue
                   ? ScrollToHideWidget(
@@ -197,12 +198,12 @@ class Home extends StatelessWidget {
                     },
                     panel: const Player(),
                     body: const ScreenNavigation(),
-                    header: !isWideScreen
+                    collapsed: !isWideScreen
                         ? InkWell(
                             onTap: playerController.playerPanelController.open,
-                            child: const MiniPlayer(),
+                            child: const NewMiniPlayer(),
                           )
-                        : const MiniPlayer(),
+                        : const NewMiniPlayer(),
                   ))),
         ),
       ),

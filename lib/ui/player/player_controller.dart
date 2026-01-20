@@ -74,6 +74,7 @@ class PlayerController extends GetxController
   final GlobalKey<ScaffoldState> homeScaffoldkey = GlobalKey<ScaffoldState>();
 
   final buttonState = PlayButtonState.paused.obs;
+  final playerViewMode = 0.obs; // 0: Main, 1: Lyrics, 2: Related
 
   // track whether wakelock is currently enabled to avoid repeated calls
   bool _wakelockActive = false;
